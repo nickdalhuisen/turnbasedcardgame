@@ -11,6 +11,9 @@ public class EnemyAi : MonoBehaviour
     [SerializeField] int NumberTwo;
    
     EnemyStats enemyStats;
+    [SerializeField] GameObject healparticle;
+    bool healed;
+    float HealParticleTime;
     void Start()
     {
         GeneratedNumber = false;
@@ -23,14 +26,25 @@ public class EnemyAi : MonoBehaviour
     
     void Update()
     {
-
+        if(healed == true)
+        {
+            HealParticleTime += Time.deltaTime;
+            healparticle.SetActive(true);
+        }
+        if(HealParticleTime >= 1.5f)
+        {
+            healparticle.SetActive(false);
+            HealParticleTime = 0;
+            healed = false;
+        }
+        
     }
     public void ChooseCard()
     {
         if(ThinkTimer <= 4 )
         {
             ThinkTimer += Time.deltaTime;
-            Debug.Log("Enemy is thinking of a card");
+            
         }
         else if(ThinkTimer >= 4)
         {
@@ -47,17 +61,25 @@ public class EnemyAi : MonoBehaviour
         {
             if (Chance >1 && Chance <= NumberOne)
             {
+                AudioManager.instance.Play("hoyaaa");
                 Debug.Log("enemy did damage");
-                StatManager.CurrentHealth -= 20;
+                if(StatManager.IsBlocking == false)
+                {
+                    StatManager.CurrentHealth -= 2;
+                }
+
+                StatManager.IsBlocking = false;
             }
             else if (Chance > NumberOne && Chance <= NumberTwo)
             {
-                Debug.Log("enemy chose to heal");
-                enemyStats.CurrentEnemyHealth += 20;
+                AudioManager.instance.Play("heal");
+                enemyStats.CurrentEnemyHealth += 1;
+                StatManager.IsBlocking = false;
+                healed = true;
             }
             else if (Chance > NumberTwo && Chance <= 100)
             {
-                Debug.Log("enemy chose to block your next shot");
+                AudioManager.instance.Play("bonk");
                 enemyStats.enemyIsBlocking = true;
             }
 

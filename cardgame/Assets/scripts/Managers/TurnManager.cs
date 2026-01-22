@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class TurnManager : MonoBehaviour
    public CurrentPlayer currentPlayer;
     // scripts
    [SerializeField] EnemyAi enemyAi;
+    [SerializeField] TMP_Text turn;
     
 
     void Start()
@@ -18,7 +21,7 @@ public class TurnManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+           
         }
         else
         {
@@ -31,6 +34,7 @@ public class TurnManager : MonoBehaviour
     void Update()
     {
         StateMaschine();
+        turn.text = "turn:" + currentPlayer;
     }
     public void StateMaschine()
     {
