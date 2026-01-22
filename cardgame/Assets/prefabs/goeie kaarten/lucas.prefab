@@ -126,6 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e40a1171c39598b4f85653d64708e19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cards
-  WhatCardDoes: 3
+  WhatCardDoes: 5
   Number: 4
   ManaCost: 0
